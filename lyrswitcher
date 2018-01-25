@@ -1,0 +1,35 @@
+(function (root, factory) {
+    if (typeof define === "function" && define.amd) {
+        define(["openlayers"], factory);
+    } else if (typeof module === "object" && module.exports) {
+        module.exports = factory(require("openlayers"));
+    } else {
+        root.LayerSwitcher = factory(root.ol);
+    }
+}(this, function (ol) {
+    console.log("ol3-layerswitcher on call");
+    ol.control.LayerSwitcher = function (opt_options) {
+        var options = opt_options || {};
+
+        this.hiddenClassName = 'ol-unselectable ol-control layer-switcher';
+        var element = document.createElement('div');
+        element.className = this.hiddenClassName;
+        //### define button
+        var button = document.createElement('button');
+        element.appendChild(button);
+
+        ol.control.Control.call(this, {
+            element: element,
+            target: options.target
+        });
+
+    };
+
+    ol.inherits(ol.control.LayerSwitcher, ol.control.Control);
+
+
+
+
+    var LayerSwitcher = ol.control.LayerSwitcher;
+    return LayerSwitcher;
+}));
