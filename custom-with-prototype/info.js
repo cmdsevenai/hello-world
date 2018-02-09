@@ -45,3 +45,10 @@ ol.Map.prototype.getLayerByTitle = function (title) {
     });
     return layer;
 }
+//click event target
+//form input checkbox
+$("form").click(function (event) {
+    $("#log").html("clicked: " + event.target.nodeName);
+        console.log(event.target.nodeName);
+        console.log(event.target.id);
+});
