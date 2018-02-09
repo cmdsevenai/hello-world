@@ -32,3 +32,17 @@ ol.Map.prototype.getLayerByTitle = function (title) {
     });
     return layer;
 }
+//getLayerByTitle
+ol.Map.prototype.getLayerByTitle = function (title) {
+    var layer;
+    this.getLayers().forEach(function (lyr) {
+        if (lyr instanceof ol.layer.Group) {
+            lyr.getLayers().forEach(sublyr => {
+                if (sublyr.get('title') == title) {
+                    layer = sublyr;
+                }
+            });
+        }
+    });
+    return layer;
+}
