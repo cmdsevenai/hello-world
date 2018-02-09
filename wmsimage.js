@@ -3,7 +3,7 @@
 var mapImage = new ol.Map({
   target: 'map',  
   renderer: 'canvas', // Force the renderer to be used
-	controls: ol.control.defaults().extend([
+  controls: ol.control.defaults().extend([
 					new ol.control.ScaleLine(),
 	]),
 	//layers of image
