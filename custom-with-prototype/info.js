@@ -11,3 +11,24 @@
             });
         }
     });
+
+//custom prototype methode
+ol.Map.prototype.getLayer = function (id) {
+    var layer;
+    this.getLayers().forEach(function (lyr) {
+        if (id == lyr.get('id')) {
+            layer = lyr;
+        }
+    });
+    return layer;
+}
+
+ol.Map.prototype.getLayerByTitle = function (title) {
+    var layer;
+    this.getLayers().forEach(function (lyr) {
+        if (title == lyr.get('title')) {
+            layer = lyr;
+        }
+    });
+    return layer;
+}
