@@ -37,7 +37,7 @@ ol.Map.prototype.getLayerByTitle = function (title) {
     this.getLayers().forEach(function (lyr) {
         if (lyr instanceof ol.layer.Group) {
             lyr.getLayers().forEach(sublyr => {
-                if (sublyr.get('title') == title) {
+                if (sublyr.get('title') == title) {              
                     layer = sublyr;
                 }
             });
@@ -57,3 +57,8 @@ event.attr('id', varId);
 event.target
 event.target.checked && event.target.id
 $(this) && event.currentTarget
+//test osm projection
+var tile = new ol.layer.Tile({
+    source: new ol.source.OSM()
+});
+console.log("OSM: ", tile.getSource().getProjection());//EPSG: 3857
