@@ -62,3 +62,17 @@ var tile = new ol.layer.Tile({
     source: new ol.source.OSM()
 });
 console.log("OSM: ", tile.getSource().getProjection());//EPSG: 3857
+//wms in cesium scene
+const ol3d = new olcs.OLCesium({ map: ol2d, target: 'map3d' });
+ol3d.setEnabled(true);
+var scene = ol3d.getCesiumScene(); 
+var imgLayers = scene.imageryLayers;
+var wmsProvider = new Cesium.WebMapServiceImageryProvider({
+    url: '',
+    layers: 'Postgres:v_vg250_krs',
+    parameters: {
+        transparent: true,
+        format: 'image/png'
+    }
+});
+imgLayers.addImageryProvider(wmsProvider);
