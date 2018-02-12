@@ -52,3 +52,8 @@ $("form").click(function (event) {
         console.log(event.target.nodeName);
         console.log(event.target.id);
 });
+//set checkbox id
+event.attr('id', varId);
+event.target
+event.target.checked && event.target.id
+$(this) && event.currentTarget
