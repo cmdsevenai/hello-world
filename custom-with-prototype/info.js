@@ -76,3 +76,23 @@ var wmsProvider = new Cesium.WebMapServiceImageryProvider({
     }
 });
 imgLayers.addImageryProvider(wmsProvider);
+//use cesiumwidget 
+//instead viewer
+<script src="res/Cesium/Cesium.js"></script>
+//var widget = new Cesium.CesiumWidget('cesiumContainer');
+var widget = new Cesium.CesiumWidget('cesiumContainer', {
+    imageryProvider : Cesium.createOpenStreetMapImageryProvider()
+});
+//var layers = widget.scene.global.imageryLayers;
+var layers = widget.scene.imageryLayers;
+//layers.removeAll();
+layers.addImageryProvider(new Cesium.WebMapServiceImageryProvider({
+    url: 'http://rcmap-test.rc.e-ssi.net:8081/geoserver/Postgres/wms',
+    layers: 'Postgres:v_vg250_krs',// Here just give layer name GIS_Demo
+    parameters: {
+        transparent: true,
+        srs: 'EPSG:4326',
+        format: 'image/png'
+     }
+}));	
+//var viewer = new Cesium.Viewer('cesiumContainer');
