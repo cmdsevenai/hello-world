@@ -96,3 +96,6 @@ layers.addImageryProvider(new Cesium.WebMapServiceImageryProvider({
      }
 }));	
 //var viewer = new Cesium.Viewer('cesiumContainer');
+//show hide
+var wmslyr = new Cesium.WebMapServiceImageryProvider(...
+wmslyr.show = Cesium.defaultValue(show, false);
