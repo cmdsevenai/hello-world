@@ -99,3 +99,10 @@ layers.addImageryProvider(new Cesium.WebMapServiceImageryProvider({
 //show hide
 var wmslyr = new Cesium.WebMapServiceImageryProvider(...
 wmslyr.show = Cesium.defaultValue(show, false);
+// ol-cesium 3D system
+var ol3d = new olcs.OLCesium({map: ol2d});
+var scene = ol3d.getCesiumScene();
+var terrainProvider = new Cesium.CesiumTerrainProvider({
+    url : '//assets.agi.com/stk-terrain/world'
+});
+scene.terrainProvider = terrainProvider;
