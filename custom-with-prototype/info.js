@@ -106,3 +106,17 @@ var terrainProvider = new Cesium.CesiumTerrainProvider({
     url : '//assets.agi.com/stk-terrain/world'
 });
 scene.terrainProvider = terrainProvider;
+//terrain with lookAt
+//in Sandcastle
+var viewer = new Cesium.CesiumWidget('cesiumContainer');
+var cesiumTerrainProviderMeshes = new Cesium.CesiumTerrainProvider({
+    url : 'https://assets.agi.com/stk-terrain/v1/tilesets/world/tiles',
+});
+viewer.terrainProvider = cesiumTerrainProviderMeshes;
+lookAtMtEverest();
+function lookAtMtEverest() {
+    var target = new Cesium.Cartesian3(300770.50872389384, 5634912.131394585, 2978152.2865545116);
+    var offset = new Cesium.Cartesian3(6344.974098678562, -793.3419798081741, 2499.9508860763162);
+    viewer.camera.lookAt(target, offset);
+    viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
+}
