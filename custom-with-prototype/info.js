@@ -141,3 +141,16 @@ var target = new Cesium.Cartesian3(300770.50872389384, 5634912.131394585, 297815
 var offset = new Cesium.Cartesian3(6344.974098678562, -793.3419798081741, 2499.9508860763162);
 scene.camera.lookAt(target, offset);
 scene.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
+//wmslayer
+var wmsProvider = new Cesium.WebMapServiceImageryProvider({
+        url: 'http://rcmap-test.rc.e-ssi.net:8081/geoserver/Postgres/wms',
+        layers: 'Postgres:v_vg250_krs',
+        parameters: {
+            transparent: true,
+            format: 'image/png'
+        }
+});
+var wmslayer = layers.addImageryProvider(wmsProvider);
+//show hide
+wmslayer.show = true;
+wmslayer.show = false;
