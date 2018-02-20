@@ -120,3 +120,24 @@ function lookAtMtEverest() {
     viewer.camera.lookAt(target, offset);
     viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
 }
+//ol cesium osm terrain
+var ol3d = new olcs.OLCesium({
+    map: ol2d,
+    target: 'map3d'
+});
+ol3d.setEnabled(true);
+//scene
+var scene = ol3d.getCesiumScene(); 
+//imageryLayers
+//wms
+var layers = scene.imageryLayers;
+//terrain provider
+var cesiumTerrainProviderMeshes = new Cesium.CesiumTerrainProvider({
+    url: 'https://assets.agi.com/stk-terrain/v1/tilesets/world/tiles',
+});
+//scene terrainProvider
+scene.terrainProvider = cesiumTerrainProviderMeshes;
+var target = new Cesium.Cartesian3(300770.50872389384, 5634912.131394585, 2978152.2865545116);
+var offset = new Cesium.Cartesian3(6344.974098678562, -793.3419798081741, 2499.9508860763162);
+scene.camera.lookAt(target, offset);
+scene.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
