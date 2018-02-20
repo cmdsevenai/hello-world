@@ -87,7 +87,7 @@ var widget = new Cesium.CesiumWidget('cesiumContainer', {
 var layers = widget.scene.imageryLayers;
 //layers.removeAll();
 layers.addImageryProvider(new Cesium.WebMapServiceImageryProvider({
-    url: 'http://rcmap-test.rc.e-ssi.net:8081/geoserver/Postgres/wms',
+    url: '...',
     layers: 'Postgres:v_vg250_krs',// Here just give layer name GIS_Demo
     parameters: {
         transparent: true,
@@ -143,7 +143,7 @@ scene.camera.lookAt(target, offset);
 scene.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
 //wmslayer
 var wmsProvider = new Cesium.WebMapServiceImageryProvider({
-        url: 'http://rcmap-test.rc.e-ssi.net:8081/geoserver/Postgres/wms',
+        url: 'http://...net:8081/geoserver/Postgres/wms',
         layers: 'Postgres:v_vg250_krs',
         parameters: {
             transparent: true,
