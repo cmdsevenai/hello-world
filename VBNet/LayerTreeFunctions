@@ -1,0 +1,174 @@
+Private Function OnNodeChecked() As String  
+
+        Dim JS As String =
+        <script>
+        //##############################
+        //### OnNodeChecked() ### Start
+        //##############################
+        $(".treecheckbox").change(function(){
+
+            //### if (loadLegend>0) {GetMapLegend();}
+            //### ATTENTION this ###
+            OnClientNodeChecked(this,1); 
+
+            if (($('#dialog').length > 0) &amp;&amp; ($('#dialog')[0].innerHTML.length > 0)){
+                dlg.dialog('close');
+            }
+        });       
+
+        //######################################################
+        //### relationeship of group and child node ### ON CLICK
+        //######################################################
+        $(".treecheckbox").on("click", function() {    
+            //##########################         
+            //### click on layernode ###
+            //##########################
+            if (document.getElementById(this.getAttribute("parent")) != null){          
+                if (document.getElementById(this.getAttribute("parent")).checked == false){
+                    document.getElementById(this.getAttribute("parent")).checked = this.checked;                      
+                } else {                    
+                    //### select all children layernode ###                                            
+                    var listofcheckboxesfound = $("input[parent="+ this.getAttribute('parent') +"]");                        
+                    
+                    //### wenn all checkbox non checked ###      
+                    var all_zero = 0; 
+                    if (listofcheckboxesfound.length > 1){ //### 2
+                        for (var i=1; i &lt; listofcheckboxesfound.length; i++){
+                            if ($("input[parent="+ this.getAttribute('parent') +"]")[i].checked == $("input[parent="+ this.getAttribute('parent') +"]")[i-1].checked) {
+                                all_zero++;
+                            }
+                        } //### end for
+                        if (all_zero == listofcheckboxesfound.length-1){
+                            document.getElementById(this.getAttribute("parent")).checked = this.checked;        
+                        }
+                    } else {
+                        document.getElementById(this.getAttribute("parent")).checked = this.checked; 
+                    } //### end else                 
+                } //### end else
+            } //### ende first if           
+        }); 
+
+        //########################################################################
+        //### Triggered wenn changes happened, set Layer visibilty ### NODE CHANGE
+        //########################################################################
+        function OnClientNodeChecked(node, loadLegend) { 
+            //############################                                              
+            //### change on layer node ###
+            //############################   
+            if (node.getAttribute("parent")  != null){ 
+
+                var number = parseInt(node.id.split('_')[0]); //203, 215
+                var mapid = node.id.split('_')[0]; //203, 215               
+                var lyrid = 'Layer' + number; //Layer203, Layer215; 203_checkbox, 215_checkbox                
+                var c_lay = eval(lyrid)                                         
+                           
+                //### map.addLayer(c_lay); //ATTENTION Here PROBLEM
+
+                var ifChecked = node.checked;  
+                c_lay.setVisible(ifChecked);
+
+                //### Layer203.setVisible(false);
+                //### Layer215.setVisible(false);
+                map.addLayer(c_lay); //ATTENTION Here 
+                //### Layer203.setVisible(false);
+                //### Layer215.setVisible(false);
+
+                //### var length = map.getLayers().getLength();
+                //### console.log("map.geLayers().getLength(): " + length); 
+                                
+                
+                //### -1 refers not existing on the map ###
+                /* if (map.getLayerIndex(eval(lyrid)) &lt;= 0) { //### getLayerIndex doesn't exist in OL4                            
+                    //don' load invisible layers on the first run, but on the click event
+                    var c_lay = eval(lyrid);
+                    //add the layer at the empty position in the map#
+                    if (c_lay.opacity != 0){
+                        map.addLayer(c_lay);
+                        c_lay.setZIndex(c_lay.LayPosInMap);//### setZIndex OL4
+                    }else {
+                        ping_layer(c_lay);
+                        c_lay.setOpacity(c_lay.options.transparency / 100 ); //### setOpacity OL4
+                    }        
+                }*/
+                
+                //### ATTENTION !!! ###
+                //### false vs. False ###
+                //### TEST layers[j].setVisible(false); //false vs False
+                //### visible on load ###
+                for (var j = 0; j &lt; map.getLayers().getLength(); j++){
+
+                    //### console.log("call for iterator with j: " + j);
+                    var lay_id_property = "Lay_ID: " + map.getLayers().getArray()[j].get('Lay_ID'); 
+                    //### console.log("lay_id_property: " + lay_id_property); //Lay_ID: 203, Lay_ID: 215
+
+                    var ifVisible = map.getLayers().getArray()[j].get('visibleOnLoad');
+                    var layers = map.getLayers().getArray();
+
+                    var boolVisible = ifVisible.toLowerCase() === 'true'?true:false; //!!! WORKS !!!                    
+                    layers[j].setVisible(boolVisible);
+                  
+                    //map.getLayers().getArray()[j].setVisible(ifVisible);
+
+                    //if ( lay_id_property !== undefined){  
+                        //if (mapid == map.layers[j].Lay_ID){
+                            //if (map.layers[j].opacity == 0){
+                                   //map.layers[j].setOpacity(map.layers[j].options.transparency / 100 );
+                            //}
+                            //map.layers[j].setVisibility(node.checked);
+                        //}
+                    //} 
+                }
+            }
+            //###########################
+            //### click on GROUP node ###
+            //###########################
+            else {  
+                //### console.log("node.id: " + node.id); //Group_10100_checkbox  
+                //### $("input[parent = "+node.id+"]").prop("checked", true);
+               
+                $("input[parent = "+node.id+"]").prop("checked", node.checked);   
+                $("input[parent = "+node.id+"]").each(function(){
+                    //### console.log("this.id: " + this.id);
+                    var number = parseInt(this.id.split('_')[0]);
+                    console.log("number: " + number);   
+                    var lyrid = 'Layer' + number; //Layer203, Layer215; 203_checkbox, 215_checkbox    
+                    console.log("lyrid: " + lyrid);            
+                    var c_lay = eval(lyrid); 
+                    c_lay.setVisible(node.checked); 
+                    //### map.addLayer(c_lay); // no need    
+                });
+                                        
+                /*                    
+                var listofcheckboxesfound = $("input[parent = "+node.id+"]");             
+                for (var i=0; i &lt; listofcheckboxesfound.length; i++){
+                    if($("input[parent="+node.id+"]")[i].checked === node.checked) continue;
+                    $("input[parent="+node.id+"]")[i].checked = node.checked;
+                    $('#' + $("input[parent="+node.id+"]")[i].id).trigger('change').attr('checked', node.checked);               
+                }*/
+            }
+            if (loadLegend>0) {GetMapLegend();}
+        }        
+
+        //checks if the layer is available with low frequent ping request
+        function ping_layer(lay){                
+            var currentNode = document.getElementById(lay.Lay_ID + '_status');
+            load_LayerLegend(lay);
+            currentNode.title = "Verfügbar";
+            currentNode.className = "status_ok";       
+        }
+
+        function setVisibilityFromTree2Layer(){
+            for (var j = 0; j &lt; map.layers.length; j++){
+                if (map.layers[j].Lay_ID !== undefined){
+                    map.layers[j].setVisibility($('#' + map.layers[j].Lay_ID + '_checkbox')[0].checked);
+                }
+            }
+        }
+        //##############################
+        //### OnNodeChecked() ### End
+        //##############################
+        </script>
+
+        Return JS
+
+    End Function
